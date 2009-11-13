@@ -1,0 +1,131 @@
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>index</title>
+    <script type="text/javascript" src="lib/prototype.js"></script>
+    <script type="text/javascript" src="lib/scriptaculous.js"></script>
+    <script type="text/javascript" src="src/AutocompleterLocalMultiContent.js"></script>
+    <style type="text/css" media="screen">
+      
+      div.autocomplete {
+        margin:0px;  
+        padding:0px;  
+        width:250px;
+        background:#fff;
+        border:1px solid #888;
+        position:absolute;
+      }
+
+      div.autocomplete ul {
+        margin:0px;
+        padding:0px;
+        list-style-type:none;
+      }
+
+      div.autocomplete ul li.selected { 
+        background-color:#ffb;
+      }
+
+      div.autocomplete ul li {
+        margin:0;
+        padding:2px;
+        height:32px;
+        display:block;
+        list-style-type:none;
+        cursor:pointer;
+      }
+      
+      .userContainer {
+        border: 1px solid #ccc;
+        background-color: #f2f2f2;
+        float: left;
+        width: 200px;
+        margin-right: 10px;
+      }
+      
+      .userContainer img {
+        vertical-align: middle;
+      }
+      
+      #preview {
+        position: absolute;
+        top: 40px;
+        left: 40px;
+      }
+
+    </style>
+    <script type="text/javascript" charset="utf-8">
+      var userIds = [];
+      
+      function toggleUser() {
+        var dataSet = mc.lastSelection;
+        
+        if(userIds.indexOf(dataSet.id) == -1) {
+          userIds.push(dataSet.id);
+          var container = renderUser(dataSet);
+          var remove = new Element("a", {href:"#", onclick: "removeUser("+dataSet.id+")", style:"float:right"}).update("remove");
+          container.insert(new Element("br"));
+          container.insert(remove);
+          $("user").insert({bottom: container});
+        } else {
+          removeUser(dataSet.id)
+        }
+        
+        $("autocompletion_text_field").value = "";
+      }
+      
+      function removeUser(id) {
+        userIds.pop(id);
+        $("userContainer"+id).remove();
+      }
+      
+      function renderUser(dataSet, id) {
+        var container = new Element("div", {id: "userContainer"+dataSet.id, "class": "userContainer"});
+        container.insert(new Element("img", {src: dataSet.img}));
+        container.insert(new Element("span").update(dataSet.displayValue));
+        
+        return container;
+      }
+    </script>
+  </head>
+  <body>
+    <form onsubmit="toggleUser(); return false;">
+      <input type="text" id="autocompletion_text_field" style="width: 300px" />
+      <input type="submit" value="go" />
+    </form>
+    <div id="autocompletion_hints" class="autocomplete"></div>
+    <div id="user"></div>
+    <div id="preview"></div>
+    
+    <script type="text/javascript" charset="utf-8">
+      var hints = [
+        {displayValue: "John Doe",        id: 1, img: "img/user.png",     displayImage: "img/user_small.png"},
+        {displayValue: "Jane Doe",        id: 2, img: "img/user.png"},
+        {displayValue: "Max Mustermann",  id: 3, img: "img/user.png",     displayImage: "img/user_small.png"},
+        {displayValue: "Maxi Mustermann", id: 4, img: "img/user.png"},
+        {displayValue: "Max Mustermann",  id: 5, img: "img/contact.png",  displayImage: "img/contact_small.png"},
+        {displayValue: "James Bond",      id: 6, img: "img/jb.png",       displayImage: "img/jb_small.png"}
+      ];
+      
+      mc = new Autocompleter.Local.MultiContent(
+        "autocompletion_text_field",
+        "autocompletion_hints",
+        hints,
+        {
+          partialChars: 0,
+          onSelect: function(selection) {
+            var container = renderUser(selection);
+            $("preview").insert(container);
+            $("preview").appear();
+            window.setTimeout(function(){
+              $("preview").fade();
+            }, 1000);
+          },
+          identifier: "id"
+        }
+      );
+      
+      $("autocompletion_text_field").focus();
+    </script>
+  </body>
+</html>
