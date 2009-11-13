@@ -1,59 +1,11 @@
 <html>
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-    <title>index</title>
+    <title>Demonstrator for Autocompleter.Local.MultiContent</title>
+    <link rel="stylesheet" href="style.css" type="text/css" charset="utf-8">
     <script type="text/javascript" src="lib/prototype.js"></script>
     <script type="text/javascript" src="lib/scriptaculous.js"></script>
     <script type="text/javascript" src="src/AutocompleterLocalMultiContent.js"></script>
-    <style type="text/css" media="screen">
-      
-      div.autocomplete {
-        margin:0px;  
-        padding:0px;  
-        width:250px;
-        background:#fff;
-        border:1px solid #888;
-        position:absolute;
-      }
-
-      div.autocomplete ul {
-        margin:0px;
-        padding:0px;
-        list-style-type:none;
-      }
-
-      div.autocomplete ul li.selected { 
-        background-color:#ffb;
-      }
-
-      div.autocomplete ul li {
-        margin:0;
-        padding:2px;
-        height:32px;
-        display:block;
-        list-style-type:none;
-        cursor:pointer;
-      }
-      
-      .userContainer {
-        border: 1px solid #ccc;
-        background-color: #f2f2f2;
-        float: left;
-        width: 200px;
-        margin-right: 10px;
-      }
-      
-      .userContainer img {
-        vertical-align: middle;
-      }
-      
-      #preview {
-        position: absolute;
-        top: 40px;
-        left: 40px;
-      }
-
-    </style>
     <script type="text/javascript" charset="utf-8">
       var userIds = [];
       
@@ -90,7 +42,8 @@
   </head>
   <body>
     <form onsubmit="toggleUser(); return false;">
-      <input type="text" id="autocompletion_text_field" style="width: 300px" />
+      <span style="text-align: center; font-size: 14px; display: block; margin-bottom: 5px">Type some letters. (Try 'Max')</span>
+      <input type="text" id="autocompletion_text_field" />
       <input type="submit" value="go" />
     </form>
     <div id="autocompletion_hints" class="autocomplete"></div>
@@ -115,11 +68,18 @@
           partialChars: 0,
           onSelect: function(selection) {
             var container = renderUser(selection);
+            container.insert(new Element("br"));
+            container.insert(new Element("span", {style: "float: right; color: red"}).update("preview"));
+            
+            $("preview").innerHTML = "";
             $("preview").insert(container);
-            $("preview").appear();
-            window.setTimeout(function(){
-              $("preview").fade();
-            }, 1000);
+            $("preview").appear({
+              afterFinish: function(){
+                window.setTimeout(function(){
+                  $("preview").fade();
+                }, 5000);
+              }
+            });
           },
           identifier: "id"
         }
