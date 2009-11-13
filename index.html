@@ -24,6 +24,7 @@
         }
         
         $("autocompletion_text_field").value = "";
+        $("preview").fade();
       }
       
       function removeUser(id) {
@@ -66,6 +67,7 @@
         hints,
         {
           partialChars: 0,
+          fullSearch: true,
           onSelect: function(selection) {
             var container = renderUser(selection);
             container.insert(new Element("br"));
