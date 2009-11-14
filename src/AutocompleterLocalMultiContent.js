@@ -3,14 +3,19 @@ if((typeof Autocompleter == 'undefined') || (typeof Autocompleter.Local == "unde
 
 Autocompleter.Local.MultiContent = Class.create(Autocompleter.Local, {
   values: null,
-  identifier: null,
+  identifierAttribute: null,
+  imageAttribute: null,
+  valueAttribute: null,
   onSelect: null,
   lastSelection: null,
   
   initialize: function($super, element, update, values, options) {
     this.values = values;
-    this.identifier = options.identifier;
+    this.identifierAttribute = options.identifier;
+    this.valueAttribute = options.value;
+    this.imageAttribute = options.image;
     this.onSelect = options.onSelect;
+    
     options.selector = this.selector;
     $super(element, update, this.extractValues(), options);
   },
@@ -31,17 +36,18 @@ Autocompleter.Local.MultiContent = Class.create(Autocompleter.Local, {
   
   generateValue: function(valueSet) {
     var generation = new Template("#{image} <span class='displayValue'> #{value} </span> #{identifier}");
-    var replacements = {value: valueSet.displayValue};
-
-    if(valueSet.displayImage) replacements["image"] = '<img src="' + valueSet.displayImage + '">';
-    if(this.identifier) replacements["identifier"] = "<span style='display: none' class='identifierValue'>" + valueSet[""+this.identifier] + "</span>";
+    var replacements = {};
+    
+    if(this.valueAttribute && valueSet[this.valueAttribute]) replacements["value"] = valueSet[this.valueAttribute];
+    if(this.imageAttribute && valueSet[this.imageAttribute]) replacements["image"] = '<img src="' + valueSet[this.imageAttribute] + '">';
+    if(this.identifierAttribute && valueSet[this.identifierAttribute]) replacements["identifier"] = "<span style='display: none' class='identifierValue'>" + valueSet[this.identifierAttribute] + "</span>";
 
     return generation.evaluate(replacements);
   },
   
   findValue: function(identifierValue) {
-    var attribute = "displayValue";
-    if(this.identifier) attribute = this.identifier;
+    var attribute = this.valueAttribute;
+    if(this.identifierAttribute) attribute = this.identifierAttribute;
 
     return this.values.detect(function(value) {
       return value[attribute] == identifierValue;
