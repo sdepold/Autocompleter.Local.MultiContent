@@ -1,0 +1,50 @@
+= Autocompleter[.Local]
+
+When looking for a possibility to assist website visitors while typing phrases into an input text field, many developer will just use the
+Autocompleter controls of script.aculo.us. Those controls give you - on the one hand - the chance to load hints from a remote server during
+the input process. On the other hand, you can just preload all data and pass them into the so called <i>Autocompleter.Local</i>.
+Doing so will save a lot of ajax requests.
+
+== Problems
+
+The local version of Autocompleter is nice and ok for simple hints and tips. But you will reach a point on which you just want to have an
+individual output or propose some data which equals, so you can't differ between those values.
+
+= Autocompleter.Local.MultiContent
+
+With this extension of the script.aculo.us Autocompleter.Local you are able to do the follow:
+
+* Connect autocompletion entries with data sets (js hashes)
+* Differ multiple hints with the same output value
+* Generate hints with a leading image
+* Let the autocompleter handle your data
+* Hook into the selection process
+
+== Basic usage
+
+The constructor expects the normal Autocompleter.Local parameters. Instead of passing an array of strings, you are allowed to pass an array of hashes.
+In the options hash you have to define an attribute of the hash, which should be displayed when typing.
+
+=== Example
+
+First: Let's define some data:
+  
+  var data = [
+    {name: "Max", age: 22},
+    {name: "Jane", age: 30},
+    {name: "John", age: 45}
+  ];
+
+To generate the autocompleter just do the following:
+
+  var autocompleter = new Autocompleter.Local.MultiContent(
+    "myTextField",
+    "myHintsDiv",
+    data,
+    { value: "name" }
+  );
+  
+The first parameter is the id of the input text field. The second one is a div, which will contain the hints while typing.
+The third one is the data array. The fourth are options. The options will be passed to the normal Autocompleter.Local so that
+you can define full text search and stuff like that. Currently not really an option but an obligatory information is the <i>value</i>.
+Set it to the attribute of the hash, which you like to be displayed. This will probably change in future.
