@@ -12,14 +12,14 @@ var autocompleterData = [
 autocompleterData.each(function(dataSet, index) { dataSet["id"] = index; });
 
 function toggleCar() {
+  if ($("autocompletion_text_field").value == "") return;
   var dataSet = autocompleter.lastSelection;
   
   if(carIds.indexOf(dataSet.id) == -1) {
     carIds.push(dataSet.id);
     var container = renderCar(dataSet);
-    var remove = new Element("a", {href:"#", onclick: "removeCar("+dataSet.id+")", style:"float:right"}).update("remove");
-    container.insert(new Element("br"));
-    container.insert(remove);
+    var remove = new Element("a", {href:"#", onclick: "removeCar("+dataSet.id+")", "class": "removeButton"}).update("x");
+    container.insert({top: remove});
     $("cars").insert({bottom: container});
   } else {
     removeCar(dataSet.id)
@@ -37,7 +37,7 @@ function removeCar(id) {
 function renderCar(dataSet, id) {
   var container = new Element("div", {id: "carContainer"+dataSet.id, "class": "carContainer"});
   container.insert(new Element("img", {src: dataSet.img_big}));
-  container.insert(new Element("span").update(dataSet.name));
+  container.insert(new Element("span", {"class": "carName"}).update(dataSet.name));
   return container;
 }
 
@@ -48,11 +48,5 @@ function evalSelection(selection) {
   
   $("preview").innerHTML = "";
   $("preview").insert(container);
-  $("preview").appear({
-    afterFinish: function(){
-      window.setTimeout(function(){
-        $("preview").fade();
-      }, 5000);
-    }
-  });
+  $("preview").appear();
 }
