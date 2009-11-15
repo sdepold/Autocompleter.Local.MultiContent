@@ -12,7 +12,7 @@ individual output or propose some data which equals, so you can't differ between
 
 = Autocompleter.Local.MultiContent
 
-With this extension of the script.aculo.us Autocompleter.Local you are able to do the follow:
+With this extension of the script.aculo.us Autocompleter.Local you are able to do the following:
 
 * Connect autocompletion entries with data sets (js hashes)
 * Differ multiple hints with the same output value
@@ -47,4 +47,4 @@ To generate the autocompleter just do the following:
 The first parameter is the id of the input text field. The second one is a div, which will contain the hints while typing.
 The third one is the data array. The fourth are options. The options will be passed to the normal Autocompleter.Local so that
 you can define full text search and stuff like that. Currently not really an option but an obligatory information is the <i>value</i>.
-Set it to the attribute of the hash, which you like to be displayed. This will probably change in future.
+Set it to the attribute of the hash, which you like to be displayed. This will probably change in future versions.
