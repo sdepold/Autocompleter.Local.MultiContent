@@ -9,8 +9,6 @@ var autocompleterData = [
   {name: "VW Käfer",  img_small: "img/kaefer_64.png",   img_big: "img/kaefer_128.png"}
 ];
 
-autocompleterData.each(function(dataSet, index) { dataSet["id"] = index; });
-
 function toggleCar() {
   if ($("autocompletion_text_field").value == "") return;
   var dataSet = autocompleter.getLastSelection();

@@ -12,7 +12,8 @@ Autocompleter.Local.MultiContent = Class.create(Autocompleter.Local, {
   initialize: function($super, element, update, values, options) {
     if(typeof options == "undefined") options = {};
     this.values = values;
-    this.identifierAttribute = this.setIdentifier(options.identifier);
+    if(options.generateIDs) this.generateIDs();
+    this.setIdentifier(options.identifier);
     this.valueAttribute = options.value;
     this.imageAttribute = options.image;
     this.onSelect = options.onSelect;
@@ -21,14 +22,19 @@ Autocompleter.Local.MultiContent = Class.create(Autocompleter.Local, {
     $super(element, update, this.extractValues(), options);
   },
   
+  generateIDs: function() {
+    this.values.each(function(value, index) { value["id"] = index; });
+    console.log(this.values.map(function(value){return value.id}));
+  },
+  
   setIdentifier: function(identifier) {
     if(typeof identifier == "undefined") {
       var defaultIdentifier = "id"
       var identifierArray = this.values.map(function(value) { return value[defaultIdentifier] });
       if(identifierArray.indexOf(undefined) == -1)
-        this.identifier = defaultIdentifier;
+        this.identifierAttribute = defaultIdentifier;
     } else
-      this.identifier = identifier;
+      this.identifierAttribute = identifier;
   },
   
   updateElement: function(selection) {
