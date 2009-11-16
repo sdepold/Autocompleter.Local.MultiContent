@@ -24,7 +24,6 @@ Autocompleter.Local.MultiContent = Class.create(Autocompleter.Local, {
   
   generateIDs: function() {
     this.values.each(function(value, index) { value["id"] = index; });
-    console.log(this.values.map(function(value){return value.id}));
   },
   
   setIdentifier: function(identifier) {
