@@ -12,7 +12,7 @@
     <form onsubmit="toggleCar(); return false;">
       <span style="text-align: center; font-size: 14px; display: block; margin-bottom: 5px">Type some letters. (Try 'Tanker')</span>
       <input type="text" id="autocompletion_text_field" />
-      <input type="submit" value="go" />
+      <input type="submit" value="go" style="margin-top: 5px" />
     </form>
     <div id="autocompletion_hints" class="autocomplete"></div>
     <div id="cars"></div>
@@ -26,7 +26,6 @@
         {
           partialChars: 0,
           fullSearch: true,
-          identifier: "id",
           generateIDs: true,
           value: "name",
           image: "img_small",

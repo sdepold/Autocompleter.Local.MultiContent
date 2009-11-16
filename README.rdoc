@@ -48,3 +48,73 @@ The first parameter is the id of the input text field. The second one is a div, 
 The third one is the data array. The fourth are options. The options will be passed to the normal Autocompleter.Local so that
 you can define full text search and stuff like that. Currently not really an option but an obligatory information is the <i>value</i>.
 Set it to the attribute of the hash, which you like to be displayed. This will probably change in future versions.
+
+== Advanced usage
+
+There are multiple options that can be passed to the constructor. Each one is described in the following:
+
+=== identifier
+
+The identifier specifies the attribute, which is able to identify a data set, when the autocompleter generates hints with the same output.
+If you don't specify the identifier in the constructor's options hash, the Autocompleter will look through the passed data sets and determine
+weather there is an <i>id</i> attribute or not. If so, it will automatically set this attribute as identifier. If you have another attribute
+which is able to identify a data set, you can just specify it in the options hash:
+
+  var data = [ {name: "Max", age: 22, filename: "my_nice_unique_filename.doc"}, ... ];
+  var autocompleter = new Autocompleter.Local.MultiContent(
+    "myTextField", "myHintsDiv", data,
+    {
+      value: "name",
+      identifier: "filename" // this will make the autocompleter look for the unique filenames
+    }
+  );
+
+=== generateIDs
+
+If you want to pass data sets with non unique output and you don't have ids, you can just let the autocompleter generate them.
+To do so just add the <i>generateIDs</i> option:
+
+  var autocompleter = new Autocompleter.Local.MultiContent(
+    "myTextField", "myHintsDiv", data,
+    {
+      value: "name",
+      generateIDs: true // set this to true in order to autogenerate the ids
+    }
+  );
+  
+Calling this constructor will transform our data the following way:
+
+  // before the constructor call
+  [ {name: "Max", age: 22}, {name: "Jane", age: 30}, {name: "John", age: 45} ]
+  
+  // after the constructor call
+  [ {name: "Max", age: 22, id: 0}, {name: "Jane", age: 30, id: 1}, {name: "John", age: 45, id: 2} ]
+  
+=== image
+
+Besides plain text you can also add an image to the rendered output. Just add an attribute to your data sets with an absolute or a relative path to an image
+and specify the image option:
+
+  var data = [{name: "Bus", img: "img/bus_64.png"}, ... ]
+  var autocompleter = new Autocompleter.Local.MultiContent(
+    "myTextField", "myHintsDiv", data,
+    {
+      value: "name",
+      image: "img" // wil render an image to the hint
+    }
+  );
+  
+=== onSelect
+
+If you want to hook into the selection process you can specify the onSelect option in the constructor's options hash. The value of onSelect should be a function.
+The function gets fired each time an user selects one of the hints. The first parameter of the function is the selected data set. As an example you could generate a preview of the selected value.
+
+  var autocompleter = new Autocompleter.Local.MultiContent(
+    "myTextField", "myHintsDiv", data,
+    {
+      value: "name",
+      onSelect: function(dataSet) {
+        // work with the dataSet ...
+      }
+    }
+  );
