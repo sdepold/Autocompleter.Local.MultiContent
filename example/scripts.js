@@ -13,7 +13,7 @@ autocompleterData.each(function(dataSet, index) { dataSet["id"] = index; });
 
 function toggleCar() {
   if ($("autocompletion_text_field").value == "") return;
-  var dataSet = autocompleter.lastSelection;
+  var dataSet = autocompleter.getLastSelection();
   
   if(carIds.indexOf(dataSet.id) == -1) {
     carIds.push(dataSet.id);

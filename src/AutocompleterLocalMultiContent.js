@@ -10,14 +10,25 @@ Autocompleter.Local.MultiContent = Class.create(Autocompleter.Local, {
   lastSelection: null,
   
   initialize: function($super, element, update, values, options) {
+    if(typeof options == "undefined") options = {};
     this.values = values;
-    this.identifierAttribute = options.identifier;
+    this.identifierAttribute = this.setIdentifier(options.identifier);
     this.valueAttribute = options.value;
     this.imageAttribute = options.image;
     this.onSelect = options.onSelect;
     
     options.selector = this.selector;
     $super(element, update, this.extractValues(), options);
+  },
+  
+  setIdentifier: function(identifier) {
+    if(typeof identifier == "undefined") {
+      var defaultIdentifier = "id"
+      var identifierArray = this.values.map(function(value) { return value[defaultIdentifier] });
+      if(identifierArray.indexOf(undefined) == -1)
+        this.identifier = defaultIdentifier;
+    } else
+      this.identifier = identifier;
   },
   
   updateElement: function(selection) {
@@ -86,5 +97,9 @@ Autocompleter.Local.MultiContent = Class.create(Autocompleter.Local, {
     if (partial.length)
       ret = ret.concat(partial.slice(0, instance.options.choices - ret.length));
     return "<ul>" + ret.join('') + "</ul>";
-  }
+  },
+  
+  getLastSelection: function() {
+    return this.lastSelection;
+  },
 });
