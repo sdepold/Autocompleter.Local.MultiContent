@@ -37,7 +37,7 @@ Autocompleter.Local.MultiContent = Class.create(Autocompleter.Local, {
   },
   
   updateElement: function(selection) {
-    var displayValue = selection.down(".displayValue").innerHTML.stripTags().trim();
+    var displayValue = selection.down(".displayValue").innerHTML.stripTags().strip();
     var identifierValue = selection.down(".identifierValue") ? selection.down(".identifierValue").innerHTML : null;
     
     this.element.value = displayValue;
