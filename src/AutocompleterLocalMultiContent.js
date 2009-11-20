@@ -106,5 +106,5 @@ Autocompleter.Local.MultiContent = Class.create(Autocompleter.Local, {
   
   getLastSelection: function() {
     return this.lastSelection;
-  },
+  }
 });
