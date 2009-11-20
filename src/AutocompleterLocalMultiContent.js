@@ -1,3 +1,7 @@
+//
+// Copyright (c) 2009 Sascha Depold (http://depold.com)
+//
+
 if((typeof Autocompleter == 'undefined') || (typeof Autocompleter.Local == "undefined"))
   throw("Please include the script.aculo.us framework.");
 
