@@ -97,7 +97,7 @@ blockquote {
     }
 .ContentPage .Firefox #Menu,
 .IndexPage .Firefox #Menu {
-    width: 27ex;
+    width: 40ex;
     }
 
 
@@ -281,7 +281,7 @@ blockquote {
     margin-left: 31ex;
     }
 .ContentPage .Firefox #Content {
-    margin-left: 27ex;
+    margin-left: 40ex;
     }
 
 
@@ -619,7 +619,7 @@ blockquote {
     border-style: solid;
     border-color: #000000;
     font-size: 9pt;  /* To make 27ex match the menu's 27ex. */
-    margin-left: 27ex;
+    margin-left: 40ex;
     }
 
 
