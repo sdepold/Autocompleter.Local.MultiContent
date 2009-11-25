@@ -48,7 +48,7 @@ Autocompleter.Local.MultiContent = Class.create(Autocompleter.Local, {
     Generates the attribute 'id'. Each dataset will get a numeric value, according to its position in the dataset array.
   */
   generateIDs: function() {
-    this.dataSets.each(function(dataSet, index) { dataSet["id"] = index; });
+    this.dataSets.each(function(dataSet, index) { dataSet.id = index; });
   },
   
   /*
@@ -62,7 +62,7 @@ Autocompleter.Local.MultiContent = Class.create(Autocompleter.Local, {
   setIdentifier: function(identifier) {
     if(typeof identifier == "undefined") {
       var defaultIdentifier = "id";
-      var identifierArray = this.dataSets.map(function(value) { return value[defaultIdentifier] });
+      var identifierArray = this.dataSets.map(function(value) { return value[defaultIdentifier]; });
       if(identifierArray.indexOf(undefined) == -1)
         this.identifierAttribute = defaultIdentifier;
     } else
@@ -95,10 +95,10 @@ Autocompleter.Local.MultiContent = Class.create(Autocompleter.Local, {
     var generation = new Template("#{image} <span class='displayValue'> #{value} </span> #{identifier}");
     var replacements = {};
     
-    if(this.valueAttributes) replacements["value"] = this.displayTextFunction(dataSet);
-    if(this.imageAttribute && dataSet[this.imageAttribute]) replacements["image"] = '<img src="' + dataSet[this.imageAttribute] + '">';
+    if(this.valueAttributes) replacements.value = this.displayTextFunction(dataSet);
+    if(this.imageAttribute && dataSet[this.imageAttribute]) replacements.image = '<img src="' + dataSet[this.imageAttribute] + '">';
     if(this.identifierAttribute && (typeof dataSet[this.identifierAttribute] != "undefined"))
-      replacements["identifier"] = "<span style='display: none' class='identifierValue'>" + dataSet[this.identifierAttribute] + "</span>";
+      replacements.identifier = "<span style='display: none' class='identifierValue'>" + dataSet[this.identifierAttribute] + "</span>";
 
     return generation.evaluate(replacements);
   },
@@ -186,21 +186,22 @@ Autocompleter.Local.MultiContent = Class.create(Autocompleter.Local, {
     var partial   = []; // Inside matches
     var entry     = instance.getToken();
     var count     = 0;
+    var tip       = null;
 
     for (var i = 0; i < instance.options.array.length && ret.length < instance.options.choices ; i++) {
       var elem = instance.options.array[i];
-      elem.match(/<span.*displayValue.*?>(.*?)<\/span>/)
+      elem.match(/<span.*displayValue.*?>(.*?)<\/span>/);
       var displayValue = (RegExp.$1).strip();
       var foundPos = instance.options.ignoreCase ? displayValue.toLowerCase().indexOf(entry.toLowerCase()) : displayValue.indexOf(entry);
 
       while (foundPos != -1) {
         if (foundPos == 0 && displayValue.length != entry.length) {
-          var tip = "<strong>" + displayValue.substr(0, entry.length) + "</strong>" + displayValue.substr(entry.length);
+          tip = "<strong>" + displayValue.substr(0, entry.length) + "</strong>" + displayValue.substr(entry.length);
           ret.push("<li>" + elem.replace(displayValue, tip) + "</li>");
           break;
         } else if (entry.length >= instance.options.partialChars && instance.options.partialSearch && foundPos != -1) {
           if (instance.options.fullSearch || /\s/.test(displayValue.substr(foundPos-1,1))) {
-            var tip = displayValue.substr(0, foundPos) + "<strong>" + displayValue.substr(foundPos, entry.length) + "</strong>" + displayValue.substr(foundPos + entry.length);
+            tip = displayValue.substr(0, foundPos) + "<strong>" + displayValue.substr(foundPos, entry.length) + "</strong>" + displayValue.substr(foundPos + entry.length);
             partial.push("<li>" + elem.replace(displayValue, tip) + "</li>");
             break;
           }
